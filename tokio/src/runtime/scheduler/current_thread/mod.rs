@@ -502,7 +502,7 @@ impl Handle {
     }
 }
 
-cfg_metrics! {
+cfg_unstable_metrics! {
     impl Handle {
         pub(crate) fn scheduler_metrics(&self) -> &SchedulerMetrics {
             &self.shared.scheduler_metrics
@@ -533,8 +533,14 @@ cfg_metrics! {
             self.blocking_spawner.queue_depth()
         }
 
-        pub(crate) fn active_tasks_count(&self) -> usize {
-            self.shared.owned.active_tasks_count()
+        pub(crate) fn alive_tasks_count(&self) -> usize {
+            self.shared.owned.alive_tasks_count()
+        }
+
+        cfg_64bit_metrics! {
+            pub(crate) fn spawned_tasks_count(&self) -> u64 {
+                self.shared.owned.spawned_tasks_count()
+            }
         }
     }
 }
